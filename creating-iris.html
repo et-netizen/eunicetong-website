@@ -43,11 +43,14 @@ li{margin:0 0 5px}
       <h2>The brief</h2>
       <div class="card">
         <p>I started with a short spec: a 3D animal you can drag to orbit, zoom with scroll or pinch, a slow spin after a few seconds of rest, a reaction when tapped, and a card with its name and traits. No external images, and it had to work on a phone.</p>
+        <p>I chose a chameleon on purpose, to reflect my work profile. A personality quiz read me as adaptable: I can take the lead on a project, I'm comfortable letting others take control, and I focus on getting the task done right.</p>
         <p class="changes-label">Main items</p>
         <ul>
           <li>Tried a cat, a fox and a few other animals before settling on a chameleon.</li>
           <li>Set the look: soft lighting, a rounded body and a card with the name and motto.</li>
         </ul>
+        <p class="changes-label">Why I made these choices</p>
+        <p>I wanted something that showcased who I am. A chameleon has a clear silhouette and useful reactions, like colour, turning and the tongue, which a cat or fox wouldn't give me. The aim was a small companion that feels alive with no photos or downloads.</p>
       </div>
     </li>
 
@@ -64,43 +67,43 @@ li{margin:0 0 5px}
           <li>A tree with a trunk, one branch and a canopy.</li>
           <li>Drag, zoom, a slow spin after a few seconds, and tap reactions.</li>
         </ul>
+        <p class="changes-label">Why I made these choices</p>
+        <p>Before refining details, I wanted one complete scene to test the core idea: he lives on the island and the tree is the goal.</p>
       </div>
     </li>
 
     <li class="stage">
       <p class="when">Stage 3</p>
-      <h2>Climbing the tree</h2>
+      <h2>Climbing, sitting and sleeping</h2>
       <div class="card">
-        <img src="creating-climbing.png" alt="Iris walking across the island towards the tree after the climb button is pressed">
-        <p class="caption">After the climb button is pressed, Iris walks across the island towards the tree.</p>
-        <p>Iris learned to climb. He walks to the base, climbs the back of the trunk, goes round it at branch height and steps onto the branch. Much of this stage was about making sure he looked like he was on the bark, not inside it.</p>
-        <p class="changes-label">Main items</p>
+        <p class="changes-label">Bringing Iris to life</p>
+        <p>Iris learned to climb the tree, settle down, and eventually fall asleep. This stage focused on giving him more natural movements and behaviours, rather than keeping him in a single idle pose.</p>
+        <p class="changes-label">Main decisions</p>
         <ul>
-          <li>A path along the bark, with his belly facing the trunk.</li>
-          <li>Feet that reach the bark, and legs that stop pointing away from it.</li>
-          <li>A step onto the branch, then walking out along it.</li>
+          <li>Created a climbing path along the trunk, with Iris’s belly facing the bark.</li>
+          <li>Adjusted his feet and legs to maintain contact with the tree.</li>
+          <li>Added the transition from the trunk onto the branch.</li>
+          <li>Introduced sitting after a short period of inactivity, followed by sleeping after a longer one.</li>
+          <li>Animated his tail coiling as he sits and his eyelids slowly closing.</li>
+          <li>Timed the ‘zzz’ animation to appear only after he falls asleep.</li>
         </ul>
+        <p class="changes-label">Intent</p>
+        <p>I wanted Iris to feel like a living companion, even when users weren’t interacting with him.</p>
+        <p>The climbing animation also had a purpose beyond movement. I wanted the tree to represent a transition between my professional life and personal projects, creating a physical separation between the two.</p>
+        <p class="changes-label">Challenges</p>
+        <p>Getting Iris to interact naturally with his environment was harder than expected. Early climbing animations made him look like he was floating or sitting inside the trunk, rather than gripping the bark.</p>
+        <p>The sleeping sequence also took several iterations. His eyelids moved up and down instead of closing naturally, and the ‘zzz’ appeared before he was actually asleep.</p>
+        <p class="changes-label">Why I made these choices</p>
+        <p>I refined his climbing path and repositioned his feet so he visibly grips the bark throughout the climb. Since chameleons are known for changing colour, I also incorporated colour changes into the animation.</p>
+        <p>For the sleeping sequence, I realised I needed to describe how sleep should look and feel, rather than simply instructing the AI to make him sleep. I added a slight lowering of his body when he sits, followed by gradually closing eyelids and, finally, the ‘zzz’.</p>
+        <p class="changes-label">What I learned</p>
+        <p>A convincing animation depends on more than getting individual movements right. Each action needs to happen in the right sequence, with the right timing and physical context.</p>
+        <p>I also realised that interactions work best when they carry meaning. The climb became more than a movement animation: it gave a visual representation to the separation I wanted to communicate.</p>
       </div>
     </li>
 
     <li class="stage">
       <p class="when">Stage 4</p>
-      <h2>Sitting, sleeping and waking</h2>
-      <div class="card">
-        <img src="creating-resting.png" alt="Iris on the ground after a short rest, tail raised and eyes half closed">
-        <p class="caption">After a short rest on the ground, Iris settles with his tail and eyes changing.</p>
-        <p>When he's still for a while, he sits, and his tail coils as he sits. Then the eyelids close slowly, and the zzz appears only once he is asleep. The timing took several rounds, because early versions showed the zzz too soon.</p>
-        <p class="changes-label">Main items</p>
-        <ul>
-          <li>Sit after a short rest, then sleep after a longer one.</li>
-          <li>Eyelids that close slowly from the middle.</li>
-          <li>The zzz timed to come after he's asleep.</li>
-        </ul>
-      </div>
-    </li>
-
-    <li class="stage">
-      <p class="when">Stage 5</p>
       <h2>Tap reactions</h2>
       <div class="card">
         <p>A tap makes him react in one of three ways: a jump with confetti, a turn to face another way with an annoyed look, or a head tilt with a question mark. He won't repeat the same reaction more than three times in a row.</p>
@@ -110,53 +113,102 @@ li{margin:0 0 5px}
           <li>An annoyed look that builds, holds, then fades after the turn.</li>
           <li>Turns of 90 and 180 degrees on the branch, so he stays on it.</li>
         </ul>
+        <p class="changes-label">Intent</p>
+        <p>I thought it would be cute to make him a bit more reactive, so a tap triggers different responses.</p>
+        <p class="changes-label">Challenges</p>
+        <p>Keeping the reactions varied without them feeling random or repetitive.</p>
+        <p class="changes-label">Why I made these choices</p>
+        <p>There are three reactions: a jump with confetti, a turn with an annoyed look, and a head tilt with a question mark. The limit of three in a row stops any one from becoming the default, and the turns stay on the branch.</p>
+        <p class="changes-label">What I learned</p>
+        <p>Small reactions add personality, but each one has to fit the scene it's in.</p>
+      </div>
+    </li>
+
+    <li class="stage">
+      <p class="when">Stage 5</p>
+      <h2>Refining the character</h2>
+      <div class="card">
+        <p class="changes-label">Getting the details right</p>
+        <p>This stage focused on making Iris look more recognisably like a chameleon while retaining his cute, cartoonish appearance.</p>
+        <p>The tail went through a major redesign, evolving from a simple tube into a tapered, scaled structure with a spiral tip. I also refined his body proportions, legs, feet and facial features.</p>
+        <img src="latest-version.png" alt="The latest version before the site layout: a scaled green chameleon on the island beside the tree, with a curled tail">
+        <p class="caption">The version before the site layout. Scales cover the body and tail, and the legs are longer and slimmer.</p>
+        <img src="creating-resting.png" alt="Iris on the ground after a short rest, tail raised and eyes half closed">
+        <p class="caption">After a short rest on the ground, Iris settles with his tail and eyes changing.</p>
+        <p class="changes-label">Main decisions</p>
+        <ul>
+          <li>Changed the tail from a uniform tube to a gradually tapered shape.</li>
+          <li>Added scales across the body and tail.</li>
+          <li>Rebuilt the tail as one continuous structure to remove unnatural kinks.</li>
+          <li>Refined the body into a compact, deeper shape with a larger head.</li>
+          <li>Lengthened and slimmed the legs, adding clearer elbows and knees.</li>
+          <li>Redesigned the toes into two opposing bundles to grip the branch.</li>
+          <li>Restricted eye movement so the pupils remain visible.</li>
+          <li>Added a tongue flick when he turns.</li>
+        </ul>
+        <p class="changes-label">Intent</p>
+        <p>I wanted Iris to look more like a real chameleon without losing the playful aesthetic.</p>
+        <p>I started researching photographs of real chameleons to understand which physical characteristics made them recognisable. Rather than copying every anatomical detail, I wanted to identify the defining features and translate them into a stylised 3D character.</p>
+        <p class="changes-label">Challenges</p>
+        <p>The tail was particularly difficult to get right. I initially tried giving the AI exact numerical dimensions for different points along it. Instead of producing a natural taper, it created something resembling a series of barrels.</p>
+        <p>The tail also developed an unnatural kink when Iris was on the branch.</p>
+        <p>Another challenge was balancing realism with animation. As I made his anatomy more realistic, the movements needed to become more sophisticated to match. More detailed legs meant more complicated animations, which started to go beyond the level of complexity I wanted for this project.</p>
+        <p class="changes-label">Why I made these choices</p>
+        <p>I changed my approach to the tail. Instead of prescribing exact dimensions, I described the shape I wanted and the reasoning behind it, allowing the AI to work out the geometry.</p>
+        <p>To fix the kink, I eventually asked it to rebuild the tail as one continuous structure rather than patching individual sections.</p>
+        <p>For the rest of his anatomy, I decided to scale back the realism and keep the overall character stylised. For example, I restricted how far his eyes could rotate once the pupils would start disappearing, because that looked unnatural within the cartoon aesthetic.</p>
+        <p class="changes-label">What I learned</p>
+        <p>Describing the intended form and reasoning can be more effective than specifying values alone. A model can follow numerical instructions accurately and still produce something that looks wrong.</p>
+        <p>I also learned that consistency matters more than realism alone. Every part of a character needs to exist at roughly the same level of detail and realism. Making one feature more anatomically accurate doesn't necessarily make the overall character better.</p>
       </div>
     </li>
 
     <li class="stage">
       <p class="when">Stage 6</p>
-      <h2>The tail</h2>
+      <h2>The site</h2>
       <div class="card">
-        <p>The tail went from a plain tube to a thin sheet that unrolls from the body, tapers to a fine tip and rolls up like paper. It was hard to get right on the branch, where the tail kinked until it was rebuilt as one piece.</p>
+        <img src="creating-site.png" alt="The site: Iris on the branch on the left, and the work profile on the right">
+        <p class="caption">On the site, Iris sits on the left and the work profile is on the right while he's up the tree.</p>
+        <p>Last, Iris was moved onto my site. He sits on the left third of the page, and the profile on the right changes with where he is. The island is framed to fit the whole scene when the page opens, and he starts out on the branch.</p>
         <p class="changes-label">Main items</p>
         <ul>
-          <li>A tail that tapers from the body to the tip, with scales.</li>
-          <li>A coil at the tip that winds the other way on the branch.</li>
-          <li>The kink on the branch removed, so the tail tilts as one line.</li>
+          <li>Iris in the left third, with the profile beside him.</li>
+          <li>Above the branch, the work profile. On the ground, the personal side.</li>
+          <li>The whole island in view on load, with Iris already on the branch.</li>
         </ul>
+        <p class="changes-label">Intent</p>
+        <p>Once he was moved onto the site, I wanted his movement down the branch to show a physical move from my work self and projects to my personal projects.</p>
+        <p class="changes-label">Challenges</p>
+        <p>Getting the profile to change at the same point as his movement.</p>
+        <p class="changes-label">Why I made these choices</p>
+        <p>He sits on the left third of the page, and the profile on the right changes with where he is: work while he's up the tree, personal on the ground.</p>
+        <p class="changes-label">What I learned</p>
+        <p>The animation can carry the meaning of the layout. When it moves with the content, the visitor sees the change without needing a label.</p>
       </div>
     </li>
 
     <li class="stage">
       <p class="when">Stage 7</p>
-      <h2>Body, legs and face</h2>
+      <h2>Switching quickly</h2>
       <div class="card">
-        <img src="latest-version.png" alt="The latest version before the site layout: a scaled green chameleon on the island beside the tree, with a curled tail">
-        <p class="caption">The version before the site layout. Scales cover the body and tail, and the legs are longer and slimmer.</p>
-        <p>This is where Iris started to look like a real chameleon. The body was made compact and deep, the head larger, and the legs longer and slimmer, with elbows and knees. The toes became two opposing bundles, like pincers.</p>
-        <p class="changes-label">Main items</p>
+        <img src="switching.png" alt="The site with the personal panel sliding in as Iris heads down the tree, and the Interests arrow on the seam">
+        <p class="caption">The panel changes as soon as the arrow is pressed, while Iris is still on his way down the tree.</p>
+        <p class="changes-label">Main decisions</p>
         <ul>
-          <li>Scales on the skin and tail.</li>
-          <li>A compact, deep body with a larger head.</li>
-          <li>Long slim legs with clear joints, and toes that grip the branch.</li>
-          <li>Eyes that move only as far as the pupils stay visible, and a tongue that flicks out when he turns.</li>
+          <li>Iris starts on the top branch, so the page opens on the work profile with no drop.</li>
+          <li>A single arrow sits on the seam between the animation and the panel: down for Interests, up for Professional.</li>
+          <li>The two panels slide up and down past each other instead of appearing and disappearing.</li>
+          <li>Pressing the arrow mid-climb turns him round along the same route, so he doesn't have to finish first.</li>
+          <li>The panel changes the moment the arrow is pressed, while Iris keeps moving.</li>
         </ul>
-      </div>
-    </li>
-
-    <li class="stage">
-      <p class="when">Stage 8</p>
-      <h2>The site</h2>
-      <div class="card">
-        <img src="creating-site.png" alt="The site: Iris on the branch on the left, and the work profile on the right">
-        <p class="caption">On the site, Iris sits on the left and the work profile is on the right while he's up the tree.</p>
-        <p>Last, Iris was moved onto my site. He sits on the left third of the page, and the profile on the right changes with where he is. The island is framed to fit the whole scene when the page opens, and he drops onto the branch when he comes in.</p>
-        <p class="changes-label">Main items</p>
-        <ul>
-          <li>Iris in the left third, with the profile beside him.</li>
-          <li>Above the branch, the work profile. On the ground, the personal side.</li>
-          <li>The whole island in view on load, with a drop onto the branch.</li>
-        </ul>
+        <p class="changes-label">Intent</p>
+        <p>People should be able to move between my work and personal sides quickly, and as often as they like. The click should clearly be what makes things happen, with the animation responding to it, not the other way around.</p>
+        <p class="changes-label">Challenges</p>
+        <p>The first version worked, but the page only changed once Iris had finished climbing. Switching a few times created friction, and the page seemed to lag behind the click.</p>
+        <p class="changes-label">Why I made these choices</p>
+        <p>Once the panel follows the press straight away, the page never waits for the animation. Letting the climb reverse mid-route means a second press always works, so nobody is stuck waiting. The sliding panels make it clear which way the page is moving.</p>
+        <p class="changes-label">What I learned</p>
+        <p>An interaction that works once can still feel broken when it's repeated. The response should be immediate, and the animation should follow the user rather than hold the page back.</p>
       </div>
     </li>
 

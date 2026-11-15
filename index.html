@@ -60,13 +60,25 @@ canvas:active{cursor:grabbing}
 }
 .recenter:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 .recenter svg{width:22px;height:22px}
-.climb{bottom:calc(max(14px,env(safe-area-inset-bottom,0px)) + 60px)}
 .hint{left:17vw}
-.recenter{right:auto;left:max(16px,env(safe-area-inset-left,0px))}
-.panel{
-  position:fixed;top:0;bottom:0;left:34vw;right:0;overflow-y:auto;z-index:2;
-  padding:max(32px,env(safe-area-inset-top,0px)) max(28px,env(safe-area-inset-right,0px)) 48px 28px;
+.seam{
+  position:fixed;left:34vw;top:50%;transform:translate(-50%,-50%);z-index:4;
+  display:flex;align-items:center;gap:8px;border:none;border-radius:999px;
+  padding:9px 16px 9px 12px;background:var(--card);color:var(--accent);
+  box-shadow:0 6px 20px rgba(20,50,40,.18);
+  font:500 13px Inter,system-ui,-apple-system,sans-serif;white-space:nowrap;cursor:pointer;
 }
+.seam:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.seam svg{width:20px;height:20px;flex:none}
+.panel{
+  position:fixed;top:0;bottom:0;left:34vw;right:0;overflow:hidden;z-index:2;
+}
+.sec{
+  position:absolute;inset:0;overflow-y:auto;
+  padding:max(32px,env(safe-area-inset-top,0px)) max(28px,env(safe-area-inset-right,0px)) 48px 28px;
+  transition:transform .7s cubic-bezier(.65,0,.35,1),visibility .7s;
+}
+.sec{padding-left:64px}
 .panel h1{font-family:"Space Grotesk",system-ui,sans-serif;font-size:clamp(28px,3vw,42px);margin:0 0 6px;line-height:1.1}
 .panel h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:24px 0 8px}
 .role{color:var(--accent);font-weight:500;margin:0 0 16px}
@@ -76,13 +88,15 @@ canvas:active{cursor:grabbing}
 .btn{display:inline-block;padding:10px 18px;border-radius:999px;background:var(--accent);color:#fff;text-decoration:none;font-size:14px;font-weight:500}
 .btn:hover{filter:brightness(1.08)}
 .btn:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
-.sec-personal{display:none}
-body[data-mode="personal"] .sec-personal{display:block}
-body[data-mode="personal"] .sec-work{display:none}
+.sec-personal{transform:translateY(100%);visibility:hidden}
+body[data-mode="personal"] .sec-work{transform:translateY(-100%);visibility:hidden}
+body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visible}
 @media (max-width:700px){
   canvas{width:100vw;height:42vh}
   .panel{left:0;top:42vh}
   .hint{left:50%}
+  .seam{left:50%;top:42vh}
+  .sec{padding-left:max(28px,env(safe-area-inset-left,0px))}
 }
 </style>
 
@@ -118,7 +132,7 @@ body[data-mode="personal"] .sec-work{display:none}
     <h1>Off the clock</h1>
     <p class="blurb">Projects I build for fun, and the pottery I make on weekends.</p>
     <div class="buttons">
-      <a class="btn" href="projects.html">My projects</a>
+      <a class="btn" href="creating-iris.html">This website</a>
       <a class="btn" href="https://www.tiktok.com/@throwing.growing" target="_blank" rel="noopener">Pottery on TikTok</a>
     </div>
   </section>
@@ -126,11 +140,12 @@ body[data-mode="personal"] .sec-work{display:none}
 
 <div class="hint">Drag to orbit · Scroll or pinch to zoom · Tap Iris</div>
 
-<button class="recenter climb" id="climb" type="button" aria-label="Climb the tree" title="Climb the tree">
+<button class="seam" id="climb" type="button" aria-label="Interests" title="Interests">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
     <line id="climbLine" x1="12" y1="20" x2="12" y2="5"/>
     <polyline id="climbHead" points="6 11 12 5 18 11"/>
   </svg>
+  <span id="climbLabel">Interests</span>
 </button>
 
 
@@ -248,7 +263,7 @@ body[data-mode="personal"] .sec-work{display:none}
   const base1 = new THREE.Color(0x52bba3), base2 = new THREE.Color(0xb0dc74), flashCol = new THREE.Color(0xf2c84b);
   const branchCol = new THREE.Color(0x7a5a42);
   const cur = new THREE.Color();
-  let treeMix = 0;
+  let treeMix = 1;
 
   // Iris
   const cat = new THREE.Group();
@@ -506,9 +521,10 @@ body[data-mode="personal"] .sec-work{display:none}
 
   // Movement along a path: walking on the ground and climbing the tree
   let moving = false, path = [], pathIdx = 0, segFrom = new THREE.Vector3(), segT = 0, segDur = 1;
-  let onTree = false, surfaceY = 0, introDone = false;
-  const basePos = new THREE.Vector3(0.1, 2.6, -0.6);   // starts above the branch and drops onto it   // where he is on the island, before pose offsets
-  let pose = 0, poseTarget = 0, hop = 0;           // pose: 0 = lying along the surface, 1 = upright on the trunk
+  // (ground and branch positions are set below; he starts on the top branch)
+  let onTree = true, surfaceY = 1.74, introDone = true;
+  const basePos = new THREE.Vector3(0.1, 1.74, -0.6);   // starts on the top branch, no drop   // where he is on the island, before pose offsets
+  let pose = 1, poseTarget = 1, hop = 0;           // pose: 0 = lying along the surface, 1 = upright on the trunk
   let happy = 0, flashT = 0;
   let annoyT = 0, annoyAge = 0, annoyLevel = 0, annoyEnd = 0, turnWait = 0;                 // annoyed look first (half-lidded, head dipped), then he turns once it has built up
   let turnLeft = 0;                               // after a tap he turns to face another direction (30 to 150 degrees)
@@ -516,7 +532,7 @@ body[data-mode="personal"] .sec-work{display:none}
   let branchAmt = 0;                               // 1 when he is out on the branch
   let lastR = -1, streak = 0;                     // no more than three of the same tap reaction in a row                      // head tilt after a tap, with a "?" floating up
   let cute = 0;                                    // big eyes and rosy cheeks (always on)
-  let grip = 0;                                    // paws curl over the branch at the top
+  let grip = 1;                                   // paws curl over the branch at the top
   let zzzAmt = 0;                                  // the zzz floats up only once he is sat down with eyes shut
   let sitAmt = 0, coilAmt = 0;                    // sitAmt: 1 = sitting down; coilAmt: 1 = tail coiled
   let restOut = 0;                                 // 1 when resting on the trunk: he lies back out along the branch line, tail at the bark, head outward
@@ -602,26 +618,44 @@ body[data-mode="personal"] .sec-work{display:none}
     happy = 0.8;
     flashT = 0.6;
     spawnSparkles();
+    climbUp = !onTree;
     if (typeof updateClimbBtn === 'function') updateClimbBtn();
   }
   // Call Iris to the centre (climbing down first if he is in the tree)
   function callIris(){
     startPath(onTree ? [...downPath(), groundCentre.clone()] : [groundCentre.clone()]);
   }
-  // One button: up the tree when he is on the ground, down the trunk when he is in the tree
+  // One arrow between the animation and the panel: down goes to Interests, up goes to Professional
   const climbBtn = document.getElementById('climb');
   const climbLine = document.getElementById('climbLine'), climbHead = document.getElementById('climbHead');
+  const climbLabel = document.getElementById('climbLabel');
+  let climbUp = !onTree;   // the direction the arrow currently points
   function updateClimbBtn(){
-    const down = onTree;
-    climbBtn.setAttribute('aria-label', down ? 'Bring Iris down' : 'Climb the tree');
-    climbBtn.title = down ? 'Bring Iris down' : 'Climb the tree';
+    const down = !climbUp;
+    const name = down ? 'Interests' : 'Professional';
+    climbBtn.setAttribute('aria-label', name);
+    climbBtn.title = name;
+    climbLabel.textContent = name;
     climbLine.setAttribute('y1', down ? 4 : 20);
     climbLine.setAttribute('y2', down ? 19 : 5);
     climbHead.setAttribute('points', down ? '6 13 12 19 18 13' : '6 11 12 5 18 11');
   }
+  // Mid-route: walk back over the last waypoint, then retrace the route so he turns round
+  function reverseClimb(){
+    const back = [segFrom.clone()];
+    for (let i = pathIdx - 1; i >= 1; i--) back.push(path[i - 1].clone());
+    path = back;
+    pathIdx = 0;
+    startSeg();
+  }
   function climbToggle(){
-    if (moving) return;
-    startPath(onTree ? downPath() : upPath());
+    if (moving){
+      climbUp = !climbUp;
+      reverseClimb();
+    } else {
+      climbUp = !onTree;
+      startPath(climbUp ? upPath() : downPath());
+    }
     updateClimbBtn();
   }
   climbBtn.addEventListener('click', climbToggle);
@@ -716,7 +750,8 @@ body[data-mode="personal"] .sec-work{display:none}
     const dt = Math.min(clock.getDelta(), 0.05);
     t += dt;
     // Above the branch he shows the work profile; on the ground, the personal side
-    const mode = basePos.y > 1.5 ? 'work' : 'personal';
+    // While he is moving the panel follows where he is heading; once he stops it follows where he is
+    const mode = moving ? (climbUp ? 'work' : 'personal') : (onTree ? 'work' : 'personal');
     if (document.body.dataset.mode !== mode) document.body.dataset.mode = mode;
 
     if (pointers.size === 0 && t - lastInteract > 6){
@@ -794,7 +829,6 @@ body[data-mode="personal"] .sec-work{display:none}
     });
 
     // Walk along the path set by callIris / climbToggle (walks to the centre shortly after load)
-    if (!introDone && t > 0.8){ introDone = true; startPath([perch.clone()]); }   // he drops onto the branch when he comes in
     if (moving && sitAmt < 0.05){   // he has stood up before setting off
       segT += dt;
       const k2 = Math.min(1, segT / segDur);
