@@ -1,5 +1,7 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
-<title>Iris the Chameleon</title>
+<title>Eunice Tong</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=Inter:wght@400;500&display=swap">
 <style>
@@ -100,7 +102,7 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
 @media (max-width:700px){
   canvas{width:100vw;height:42vh}
   .panel{left:0;top:42vh}
-  .hint{left:50%}
+  .hint{left:50%;background:var(--bg);padding:4px 10px;border-radius:8px}
   .seam{left:50%;top:42vh}
   .sec{padding-left:max(28px,env(safe-area-inset-left,0px))}
 }
@@ -541,7 +543,7 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
   // (ground and branch positions are set below; he starts on the top branch)
   let onTree = true, surfaceY = 1.74, introDone = true;
   const basePos = new THREE.Vector3(0.1, 1.74, -0.6);   // starts on the top branch, no drop   // where he is on the island, before pose offsets
-  let pose = 1, poseTarget = 1, hop = 0;           // pose: 0 = lying along the surface, 1 = upright on the trunk
+  let pose = 0, poseTarget = 0, hop = 0;           // pose: 0 = lying along the surface, 1 = upright on the trunk
   let happy = 0, flashT = 0;
   let annoyT = 0, annoyAge = 0, annoyLevel = 0, annoyEnd = 0, turnWait = 0;                 // annoyed look first (half-lidded, head dipped), then he turns once it has built up
   let turnLeft = 0;                               // after a tap he turns to face another direction (30 to 150 degrees)
@@ -716,8 +718,15 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
   // A tap picks one reaction at random: a jump with confetti, a turn to face another direction, or a head tilt with a "?"
   function tapReact(){
     const stuck = moving || (onTree && pose > 0.5);   // while walking, or clinging to the trunk, he only jumps
-    let r = stuck ? 0 : Math.floor(Math.random() * 3);
-    if (!stuck && r === lastR && streak >= 3) r = (lastR + 1 + Math.floor(Math.random() * 2)) % 3;   // a fourth in a row must be something else
+    // While stuck he can only jump or tilt, so the three-in-a-row limit still applies between those two
+    let r;
+    if (stuck){
+      r = Math.random() < 0.5 ? 0 : 2;
+      if (r === lastR && streak >= 3) r = r === 0 ? 2 : 0;
+    } else {
+      r = Math.floor(Math.random() * 3);
+      if (r === lastR && streak >= 3) r = (lastR + 1 + Math.floor(Math.random() * 2)) % 3;   // a fourth in a row must be something else
+    }
     streak = r === lastR ? streak + 1 : 1;
     lastR = r;
     if (r === 0){ happy = 1.2; flashT = 1.0; spawnSparkles(); }
