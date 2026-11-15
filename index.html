@@ -69,6 +69,8 @@ canvas:active{cursor:grabbing}
   opacity:0;transition:opacity .8s ease;
 }
 .tapcue.on{opacity:1}
+.story{display:block;width:100%;height:70vh;min-height:420px;border:0;border-radius:16px;margin-top:20px;background:var(--card)}
+.story[hidden]{display:none}
 .seam{
   position:fixed;left:34vw;top:50%;transform:translate(-50%,-50%);z-index:4;
   display:flex;align-items:center;gap:8px;border:none;border-radius:999px;
@@ -139,7 +141,7 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
     </ul>
     <h2>Skills and tools</h2>
     <p><strong>Analytics and tools:</strong> R, Excel, Stata, NVivo, REDCap, Qualtrics, Notion, SQL, Tableau</p>
-    <p><strong>Methods:</strong> Evaluation framework design, mixed-methods research, quality standards definition, user needs synthesis, focus groups and in-depth interviews, theory of change, data storytelling, implementation science</p>
+    <p><strong>Methods:</strong> Evaluation framework design, mixed-methods research, user needs synthesis, focus groups and in-depth interviews, theory of change, data storytelling, implementation science</p>
     <div class="buttons">
       <a class="btn" href="Eunice-Tong-CV.pdf" download>Download CV</a>
       <a class="btn" href="https://www.linkedin.com/in/eunicetong-/" target="_blank" rel="noopener">LinkedIn</a>
@@ -151,11 +153,23 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
     <h1>Off the clock</h1>
     <p class="blurb">Projects I build for fun.</p>
     <div class="buttons">
-      <a class="btn" href="creating-iris.html">This website</a>
+      <button class="btn" id="storyBtn" type="button" aria-expanded="false" aria-controls="story">This website</button>
       <a class="btn" href="https://www.tiktok.com/@throwing.growing" target="_blank" rel="noopener">Pottery on TikTok</a>
     </div>
+    <iframe id="story" class="story" src="creating-iris.html" title="Creating this animation" hidden></iframe>
   </section>
 </main>
+<script>
+  // "This website" opens the story right here, under the buttons
+  (function(){
+    const btn = document.getElementById('storyBtn'), story = document.getElementById('story');
+    btn.addEventListener('click', () => {
+      story.hidden = !story.hidden;
+      btn.setAttribute('aria-expanded', String(!story.hidden));
+      btn.textContent = story.hidden ? 'This website' : 'Close';
+    });
+  })();
+</script>
 
 <div class="hint">Drag to orbit · Scroll or pinch to zoom <span class="tapword">· Tap Iris</span></div>
 <div class="tapcue" id="tapcue">Tap Iris</div>
