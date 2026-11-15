@@ -116,7 +116,6 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
 <main class="panel">
   <section class="sec sec-work">
     <h1>Eunice Tong</h1>
-    <p class="role">Programme evaluation analyst, SingHealth</p>
     <p class="blurb">Programme evaluation analyst with 5+ years turning user research and data into clear quality standards and recommendations for healthcare programmes. Experienced in mixed-methods research, framework-based analysis, and segmenting users to understand what drives their engagement.</p>
     <h2>Experience</h2>
     <p><strong>SingHealth</strong> · Analyst, Programme Evaluation · Jan 2023 to present</p>
@@ -604,7 +603,7 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
   const groundCentre = new THREE.Vector3(0, 0, 0);
   const perch = new THREE.Vector3(0.1, 1.74, -0.6);
   // He climbs up the back of the trunk (away from the branch), goes around it at branch height, then steps onto the branch
-  const TRUNK = {x: -1.4, z: -0.6, R: 0.22};   // path runs along the bark surface (trunk radius about 0.2)
+  const TRUNK = {x: -1.4, z: -0.6, R: 0.2};   // path runs along the bark surface (trunk radius about 0.2)
   const ringAt = a => new THREE.Vector3(TRUNK.x + TRUNK.R * Math.cos(a), 1.58, TRUNK.z + TRUNK.R * Math.sin(a));
   const backBase = new THREE.Vector3(TRUNK.x - TRUNK.R, 0, TRUNK.z);
   const backTop = new THREE.Vector3(TRUNK.x - TRUNK.R, 1.58, TRUNK.z);
@@ -612,7 +611,7 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
   const stepOff = ringAt(0);
   // From the ground he first walks to the centre, then round to stand beside the base of the trunk, then climbs the back of it
   const baseSide = new THREE.Vector3(TRUNK.x - 0.35, 0, TRUNK.z + 0.35);
-  function upPath(){ return [groundCentre, baseSide, backBase, backTop, stepOff, perch].map(p => p.clone()); }
+  function upPath(){ return [baseSide, backBase, backTop, stepOff, perch].map(p => p.clone()); }
   // Coming down he steps off the trunk and walks a little towards the centre, so his head clears the bark
   const nearCentre = new THREE.Vector3(TRUNK.x + 0.7, 0, TRUNK.z + 0.7);
   function downPath(){ return [stepOff, backTop, backBase, baseSide, nearCentre].map(p => p.clone()); }
@@ -921,7 +920,7 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
       cat.rotation.y += dy * Math.min(1, dt * 3);
     }
     cat.rotation.x = -flatPose * Math.PI / 2;
-    const offs = (1 - restOut) * pose * 0.05 + restOut * 0.2;   // distance out from the bark
+    const offs = (1 - restOut) * pose * 0.0 + restOut * 0.2;   // distance out from the bark
     cat.position.set(
       basePos.x + offs * Math.sin(awayYaw),   // feet reach the bark when climbing; body sits clear of it when lying out
       basePos.y + hop + flatPose * 0.5 + (1 - pose) * (basePos.y > 0.5 ? 0 : 0.06),   // lifted so the feet sit on the ground; on the branch the feet sit exactly on it
