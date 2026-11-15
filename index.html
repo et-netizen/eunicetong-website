@@ -102,9 +102,10 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
 @media (max-width:700px){
   canvas{width:100vw;height:42vh}
   .panel{left:0;top:42vh}
-  .hint{left:50%;background:var(--bg);padding:4px 10px;border-radius:8px}
+  .hint{left:50%;top:calc(42vh + 30px);bottom:auto;background:var(--bg);padding:4px 10px;border-radius:8px}
   .seam{left:50%;top:42vh}
-  .sec{padding-left:max(28px,env(safe-area-inset-left,0px))}
+  .tapword{display:none}
+  .sec{padding-left:max(28px,env(safe-area-inset-left,0px));padding-top:64px}
 }
 </style>
 
@@ -156,7 +157,7 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
   </section>
 </main>
 
-<div class="hint">Drag to orbit · Scroll or pinch to zoom · Tap Iris</div>
+<div class="hint">Drag to orbit · Scroll or pinch to zoom <span class="tapword">· Tap Iris</span></div>
 <div class="tapcue" id="tapcue">Tap Iris</div>
 
 <button class="seam" id="climb" type="button" aria-label="Interests" title="Interests">
@@ -651,8 +652,9 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
   const climbLine = document.getElementById('climbLine'), climbHead = document.getElementById('climbHead');
   const climbLabel = document.getElementById('climbLabel');
   let climbUp = !onTree;   // the direction the arrow currently points
+  // The arrow names the panel you are NOT on, and only changes once the slide has finished
   function updateClimbBtn(){
-    const down = !climbUp;
+    const down = document.body.dataset.mode !== 'personal';
     const name = down ? 'Interests' : 'Professional';
     climbBtn.setAttribute('aria-label', name);
     climbBtn.title = name;
@@ -676,9 +678,10 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
       climbUp = !onTree;
       startPath(climbUp ? upPath() : downPath());
     }
-    updateClimbBtn();
   }
   climbBtn.addEventListener('click', climbToggle);
+  document.querySelectorAll('.sec').forEach(el =>
+    el.addEventListener('transitionend', e => { if (e.propertyName === 'transform') updateClimbBtn(); }));
   updateClimbBtn();
 
   // Interaction state
