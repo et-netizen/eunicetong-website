@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Creating this animation · Eunice Tong</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=Inter:wght@400;500&display=swap">
+<style>
+:root{--bg:#eef5ef;--fg:#243a33;--accent:#2f9c86;--card:#fbfdfb;--muted:#6f8a80;color-scheme:light}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1d2b27;--fg:#e4f2ec;--accent:#5cc9ae;--card:#2a3b36;--muted:#9fb8ae;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1d2b27;--fg:#e4f2ec;--accent:#5cc9ae;--card:#2a3b36;--muted:#9fb8ae;color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.65}
+main{max-width:680px;margin:0 auto;padding:max(40px,env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) 64px max(20px,env(safe-area-inset-left,0px))}
+a{color:var(--accent)}
+h1{font-family:"Space Grotesk",system-ui,sans-serif;font-size:clamp(28px,4vw,40px);margin:12px 0 8px;line-height:1.1}
+p{margin:0 0 10px}
+ul{margin:0;padding-left:18px}
+li{margin:0 0 5px}
+.back{font-size:14px;text-decoration:none}
+.lede{color:var(--muted);margin:0 0 28px}
+.timeline{position:relative;margin:0;padding:0 0 0 26px;list-style:none;border-left:2px solid var(--accent)}
+.stage{position:relative;margin:0 0 30px}
+.stage::before{content:"";position:absolute;left:-33px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--bg)}
+.when{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:500;margin:0 0 2px}
+.stage h2{font-family:"Space Grotesk",system-ui,sans-serif;font-size:21px;margin:0 0 8px;line-height:1.2}
+.card{background:var(--card);border-radius:16px;padding:18px 20px;box-shadow:0 8px 28px rgba(20,50,40,.12)}
+.card img{display:block;width:100%;height:auto;border-radius:10px;margin:0 0 12px}
+.caption{font-size:13px;color:var(--muted);margin:0 0 10px}
+.changes-label{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:10px 0 4px}
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="projects.html">← Back to projects</a>
+  <h1>Creating this animation</h1>
+  <p class="lede">How Iris changed over time, stage by stage, with the main changes in each. Built with Claude one change at a time.</p>
+
+  <ol class="timeline">
+
+    <li class="stage">
+      <p class="when">Stage 1</p>
+      <h2>The brief</h2>
+      <div class="card">
+        <p>I started with a short spec: a 3D animal you can drag to orbit, zoom with scroll or pinch, a slow spin after a few seconds of rest, a reaction when tapped, and a card with its name and traits. No external images, and it had to work on a phone.</p>
+        <p class="changes-label">Main items</p>
+        <ul>
+          <li>Tried a cat, a fox and a few other animals before settling on a chameleon.</li>
+          <li>Set the look: soft lighting, a rounded body and a card with the name and motto.</li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="stage">
+      <p class="when">Stage 2</p>
+      <h2>The first render that worked</h2>
+      <div class="card">
+        <img src="first-render.png" alt="The first working render: a green chameleon on a pale island, beside a brown tree with one branch">
+        <p class="caption">The first version where Iris, the island and the tree all showed up.</p>
+        <p>Iris sits on the island beside a brown tree with one branch and a leafy top. The card is in the corner, and the arrow button at the bottom right makes him climb.</p>
+        <p class="changes-label">Main items</p>
+        <ul>
+          <li>A chameleon with a casque, eye turrets and a coiled tail.</li>
+          <li>A tree with a trunk, one branch and a canopy.</li>
+          <li>Drag, zoom, a slow spin after a few seconds, and tap reactions.</li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="stage">
+      <p class="when">Stage 3</p>
+      <h2>Climbing the tree</h2>
+      <div class="card">
+        <img src="creating-climbing.png" alt="Iris walking across the island towards the tree after the climb button is pressed">
+        <p class="caption">After the climb button is pressed, Iris walks across the island towards the tree.</p>
+        <p>Iris learned to climb. He walks to the base, climbs the back of the trunk, goes round it at branch height and steps onto the branch. Much of this stage was about making sure he looked like he was on the bark, not inside it.</p>
+        <p class="changes-label">Main items</p>
+        <ul>
+          <li>A path along the bark, with his belly facing the trunk.</li>
+          <li>Feet that reach the bark, and legs that stop pointing away from it.</li>
+          <li>A step onto the branch, then walking out along it.</li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="stage">
+      <p class="when">Stage 4</p>
+      <h2>Sitting, sleeping and waking</h2>
+      <div class="card">
+        <img src="creating-resting.png" alt="Iris on the ground after a short rest, tail raised and eyes half closed">
+        <p class="caption">After a short rest on the ground, Iris settles with his tail and eyes changing.</p>
+        <p>When he's still for a while, he sits, and his tail coils as he sits. Then the eyelids close slowly, and the zzz appears only once he is asleep. The timing took several rounds, because early versions showed the zzz too soon.</p>
+        <p class="changes-label">Main items</p>
+        <ul>
+          <li>Sit after a short rest, then sleep after a longer one.</li>
+          <li>Eyelids that close slowly from the middle.</li>
+          <li>The zzz timed to come after he's asleep.</li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="stage">
+      <p class="when">Stage 5</p>
+      <h2>Tap reactions</h2>
+      <div class="card">
+        <p>A tap makes him react in one of three ways: a jump with confetti, a turn to face another way with an annoyed look, or a head tilt with a question mark. He won't repeat the same reaction more than three times in a row.</p>
+        <p class="changes-label">Main items</p>
+        <ul>
+          <li>Jump with sparkles, turn, or tilt his head.</li>
+          <li>An annoyed look that builds, holds, then fades after the turn.</li>
+          <li>Turns of 90 and 180 degrees on the branch, so he stays on it.</li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="stage">
+      <p class="when">Stage 6</p>
+      <h2>The tail</h2>
+      <div class="card">
+        <p>The tail went from a plain tube to a thin sheet that unrolls from the body, tapers to a fine tip and rolls up like paper. It was hard to get right on the branch, where the tail kinked until it was rebuilt as one piece.</p>
+        <p class="changes-label">Main items</p>
+        <ul>
+          <li>A tail that tapers from the body to the tip, with scales.</li>
+          <li>A coil at the tip that winds the other way on the branch.</li>
+          <li>The kink on the branch removed, so the tail tilts as one line.</li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="stage">
+      <p class="when">Stage 7</p>
+      <h2>Body, legs and face</h2>
+      <div class="card">
+        <img src="latest-version.png" alt="The latest version before the site layout: a scaled green chameleon on the island beside the tree, with a curled tail">
+        <p class="caption">The version before the site layout. Scales cover the body and tail, and the legs are longer and slimmer.</p>
+        <p>This is where Iris started to look like a real chameleon. The body was made compact and deep, the head larger, and the legs longer and slimmer, with elbows and knees. The toes became two opposing bundles, like pincers.</p>
+        <p class="changes-label">Main items</p>
+        <ul>
+          <li>Scales on the skin and tail.</li>
+          <li>A compact, deep body with a larger head.</li>
+          <li>Long slim legs with clear joints, and toes that grip the branch.</li>
+          <li>Eyes that move only as far as the pupils stay visible, and a tongue that flicks out when he turns.</li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="stage">
+      <p class="when">Stage 8</p>
+      <h2>The site</h2>
+      <div class="card">
+        <img src="creating-site.png" alt="The site: Iris on the branch on the left, and the work profile on the right">
+        <p class="caption">On the site, Iris sits on the left and the work profile is on the right while he's up the tree.</p>
+        <p>Last, Iris was moved onto my site. He sits on the left third of the page, and the profile on the right changes with where he is. The island is framed to fit the whole scene when the page opens, and he drops onto the branch when he comes in.</p>
+        <p class="changes-label">Main items</p>
+        <ul>
+          <li>Iris in the left third, with the profile beside him.</li>
+          <li>Above the branch, the work profile. On the ground, the personal side.</li>
+          <li>The whole island in view on load, with a drop onto the branch.</li>
+        </ul>
+      </div>
+    </li>
+
+  </ol>
+</main>
+</body>
+</html>

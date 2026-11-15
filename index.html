@@ -149,7 +149,7 @@ body[data-mode="personal"] .sec-work{display:none}
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
-  const target = new THREE.Vector3(0, 0.9, 0);
+  const target = new THREE.Vector3(0.1, 1.5, -0.2);   // centre of the whole island, tree included
   const DEFAULT_VIEW = {radius: 6.5, phi: 1.12, theta: 0.5};
   const sph = new THREE.Spherical(DEFAULT_VIEW.radius, DEFAULT_VIEW.phi, DEFAULT_VIEW.theta);
   const clock = new THREE.Clock();
@@ -507,7 +507,7 @@ body[data-mode="personal"] .sec-work{display:none}
   // Movement along a path: walking on the ground and climbing the tree
   let moving = false, path = [], pathIdx = 0, segFrom = new THREE.Vector3(), segT = 0, segDur = 1;
   let onTree = false, surfaceY = 0, introDone = false;
-  const basePos = new THREE.Vector3(1.5, 0, 0);   // where he is on the island, before pose offsets
+  const basePos = new THREE.Vector3(0.1, 2.6, -0.6);   // starts above the branch and drops onto it   // where he is on the island, before pose offsets
   let pose = 0, poseTarget = 0, hop = 0;           // pose: 0 = lying along the surface, 1 = upright on the trunk
   let happy = 0, flashT = 0;
   let annoyT = 0, annoyAge = 0, annoyLevel = 0, annoyEnd = 0, turnWait = 0;                 // annoyed look first (half-lidded, head dipped), then he turns once it has built up
@@ -654,7 +654,7 @@ body[data-mode="personal"] .sec-work{display:none}
     } else if (pointers.size === 2){
       const [a, b] = [...pointers.values()];
       const d = Math.hypot(a.x - b.x, a.y - b.y);
-      if (pinchD) sph.radius = Math.min(12, Math.max(4, sph.radius * pinchD / d));
+      if (pinchD) sph.radius = Math.min(16, Math.max(3,sph.radius * pinchD / d));
       pinchD = d;
       moved += 20;
     }
@@ -693,7 +693,7 @@ body[data-mode="personal"] .sec-work{display:none}
 
   canvas.addEventListener('wheel', e => {
     e.preventDefault();
-    sph.radius = Math.min(12, Math.max(4, sph.radius + e.deltaY * 0.005));
+    sph.radius = Math.min(16, Math.max(3,sph.radius + e.deltaY * 0.005));
     lastInteract = t;
   }, {passive:false});
 
@@ -703,15 +703,20 @@ body[data-mode="personal"] .sec-work{display:none}
     camera.aspect = w / h;
     camera.fov = w / h < 0.8 ? 52 : 40;
     camera.updateProjectionMatrix();
+    sph.radius = fitRadius();   // frame the whole island in this window
   }
   window.addEventListener('resize', resize);
+  function fitRadius(){
+    const vt = Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2), ht = vt * camera.aspect;
+    return Math.min(16, Math.max(3, 2.9 / Math.min(vt, ht)));
+  }
   resize();
 
   function frame(){
     const dt = Math.min(clock.getDelta(), 0.05);
     t += dt;
-    // On the ground he shows the work profile; up the tree, the personal side
-    const mode = basePos.y > 0.5 ? 'personal' : 'work';
+    // Above the branch he shows the work profile; on the ground, the personal side
+    const mode = basePos.y > 1.5 ? 'work' : 'personal';
     if (document.body.dataset.mode !== mode) document.body.dataset.mode = mode;
 
     if (pointers.size === 0 && t - lastInteract > 6){
@@ -789,7 +794,7 @@ body[data-mode="personal"] .sec-work{display:none}
     });
 
     // Walk along the path set by callIris / climbToggle (walks to the centre shortly after load)
-    if (!introDone && t > 0.8){ introDone = true; callIris(); }
+    if (!introDone && t > 0.8){ introDone = true; startPath([perch.clone()]); }   // he drops onto the branch when he comes in
     if (moving && sitAmt < 0.05){   // he has stood up before setting off
       segT += dt;
       const k2 = Math.min(1, segT / segDur);
