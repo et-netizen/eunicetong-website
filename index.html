@@ -23,7 +23,7 @@ body{
   font-family:Inter,system-ui,-apple-system,sans-serif;
   overflow:hidden;
 }
-canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+canvas{position:fixed;left:0;top:0;width:34vw;height:100vh;display:block;touch-action:none;cursor:grab}
 canvas:active{cursor:grabbing}
 .card{
   position:fixed;
@@ -61,20 +61,68 @@ canvas:active{cursor:grabbing}
 .recenter:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 .recenter svg{width:22px;height:22px}
 .climb{bottom:calc(max(14px,env(safe-area-inset-bottom,0px)) + 60px)}
+.hint{left:17vw}
+.recenter{right:auto;left:max(16px,env(safe-area-inset-left,0px))}
+.panel{
+  position:fixed;top:0;bottom:0;left:34vw;right:0;overflow-y:auto;z-index:2;
+  padding:max(32px,env(safe-area-inset-top,0px)) max(28px,env(safe-area-inset-right,0px)) 48px 28px;
+}
+.panel h1{font-family:"Space Grotesk",system-ui,sans-serif;font-size:clamp(28px,3vw,42px);margin:0 0 6px;line-height:1.1}
+.panel h2{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:24px 0 8px}
+.role{color:var(--accent);font-weight:500;margin:0 0 16px}
+.blurb{font-size:15px;line-height:1.65;max-width:62ch;margin:0}
+.panel ul{margin:0;padding-left:18px;font-size:14px;line-height:1.6;max-width:62ch}
+.buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.btn{display:inline-block;padding:10px 18px;border-radius:999px;background:var(--accent);color:#fff;text-decoration:none;font-size:14px;font-weight:500}
+.btn:hover{filter:brightness(1.08)}
+.btn:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.sec-personal{display:none}
+body[data-mode="personal"] .sec-personal{display:block}
+body[data-mode="personal"] .sec-work{display:none}
+@media (max-width:700px){
+  canvas{width:100vw;height:42vh}
+  .panel{left:0;top:42vh}
+  .hint{left:50%}
+}
 </style>
 
 <canvas id="c"></canvas>
 
-<aside class="card">
-  <h1>Iris</h1>
-  <div class="sub">Chameleon</div>
-  <ul>
-    <li>Adaptable</li>
-    <li>Thoughtful</li>
-    <li>Detail-minded</li>
-  </ul>
-  <p class="motto">"I'll read the room, then build the bridge."</p>
-</aside>
+<main class="panel">
+  <section class="sec sec-work">
+    <h1>Eunice Tong</h1>
+    <p class="role">Programme evaluation analyst, SingHealth</p>
+    <p class="blurb">Programme evaluation analyst with 5+ years turning user research and data into quality standards and recommendations for healthcare programmes. At SingHealth I build evaluation frameworks for national programmes, lead qualitative research on digital care coordination (the One Care Plan), and coordinate large focus-group studies with residents, GPs and operations teams. I'm now moving towards product operations: closer to the decisions that data informs, and to making programmes work in practice.</p>
+    <h2>Where I've been</h2>
+    <ul>
+      <li>SingHealth, Analyst, Programme Evaluation (2023 to present)</li>
+      <li>NUS Saw Swee Hock School of Public Health, Researcher (2019 to 2022)</li>
+      <li>Master of Public Health, National University of Singapore (2023)</li>
+      <li>BSc Life Sciences, National University of Singapore (2019), first class honours</li>
+    </ul>
+    <h2>Highlights</h2>
+    <ul>
+      <li>Built theory-of-change and logic-model frameworks for national healthcare programmes</li>
+      <li>Led qualitative research on the One Care Plan, a digital care-coordination platform piloted by MOHT</li>
+      <li>Coordinated 25 focus groups with 181 participants across 5 stakeholder groups</li>
+      <li>Designed and ran nationwide resident and cluster-wide partner surveys</li>
+    </ul>
+    <div class="buttons">
+      <a class="btn" href="Eunice-Tong-CV.pdf" download>Download CV</a>
+      <a class="btn" href="https://www.linkedin.com/in/eunicetong-/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://scholar.google.com/citations?user=zgWOUH8AAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>
+      <a class="btn" href="mailto:th.eunice@outlook.com">Email me</a>
+    </div>
+  </section>
+  <section class="sec sec-personal">
+    <h1>Off the clock</h1>
+    <p class="blurb">Projects I build for fun, and the pottery I make on weekends.</p>
+    <div class="buttons">
+      <a class="btn" href="projects.html">My projects</a>
+      <a class="btn" href="https://www.tiktok.com/@throwing.growing" target="_blank" rel="noopener">Pottery on TikTok</a>
+    </div>
+  </section>
+</main>
 
 <div class="hint">Drag to orbit · Scroll or pinch to zoom · Tap Iris</div>
 
@@ -650,7 +698,7 @@ canvas:active{cursor:grabbing}
   }, {passive:false});
 
   function resize(){
-    const w = window.innerWidth, h = window.innerHeight;
+    const w = canvas.clientWidth || 1, h = canvas.clientHeight || 1;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.fov = w / h < 0.8 ? 52 : 40;
@@ -662,6 +710,9 @@ canvas:active{cursor:grabbing}
   function frame(){
     const dt = Math.min(clock.getDelta(), 0.05);
     t += dt;
+    // On the ground he shows the work profile; up the tree, the personal side
+    const mode = basePos.y > 0.5 ? 'personal' : 'work';
+    if (document.body.dataset.mode !== mode) document.body.dataset.mode = mode;
 
     if (pointers.size === 0 && t - lastInteract > 6){
       sph.theta += dt * (reduceMotion ? 0.02 : 0.04);

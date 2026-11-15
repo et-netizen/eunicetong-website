@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Projects · Eunice Tong</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&family=Inter:wght@400;500&display=swap">
+<style>
+:root{--bg:#eef5ef;--fg:#243a33;--accent:#2f9c86;--card:#fbfdfb;--muted:#6f8a80;color-scheme:light}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#1d2b27;--fg:#e4f2ec;--accent:#5cc9ae;--card:#2a3b36;--muted:#9fb8ae;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1d2b27;--fg:#e4f2ec;--accent:#5cc9ae;--card:#2a3b36;--muted:#9fb8ae;color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.6}
+main{max-width:680px;margin:0 auto;padding:max(40px,env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) 64px max(20px,env(safe-area-inset-left,0px))}
+a{color:var(--accent)}
+h1{font-family:"Space Grotesk",system-ui,sans-serif;font-size:clamp(28px,4vw,40px);margin:12px 0 8px;line-height:1.1}
+h2{font-family:"Space Grotesk",system-ui,sans-serif;font-size:22px;margin:0 0 6px}
+.back{font-size:14px;text-decoration:none}
+.lede{color:var(--muted);margin:0 0 28px}
+.project{background:var(--card);border-radius:16px;padding:22px 24px;margin:0 0 20px;box-shadow:0 8px 28px rgba(20,50,40,.12)}
+.project p{margin:0 0 10px}
+.project ul{margin:0 0 4px;padding-left:18px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:6px}
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="index.html">← Back to Eunice Tong</a>
+  <h1>Projects</h1>
+  <p class="lede">Side projects I build for fun. More will be added as I make them.</p>
+
+  <article class="project">
+    <div class="tag">Interactive 3D</div>
+    <h2>Iris the Chameleon</h2>
+    <p>A single-file 3D chameleon that you can orbit, zoom and tap. Iris idles, sleeps, and climbs a tree. The whole page is one HTML file built with three.js.</p>
+    <ul>
+      <li>Built step by step with Claude, from a plain brief to a finished page.</li>
+      <li>Procedural scale texture on the skin, with no external images.</li>
+      <li>Hand-built movement: climbing paths along the trunk, a tail that rolls and unrolls, and tap reactions.</li>
+      <li>Lighting, camera and layout tuned for phones as well as desktops.</li>
+    </ul>
+  </article>
+</main>
+</body>
+</html>
