@@ -61,6 +61,12 @@ canvas:active{cursor:grabbing}
 .recenter:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 .recenter svg{width:22px;height:22px}
 .hint{left:17vw}
+.tapcue{
+  position:fixed;transform:translate(-50%,-100%);pointer-events:none;z-index:2;
+  font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);white-space:nowrap;
+  opacity:0;transition:opacity .8s ease;
+}
+.tapcue.on{opacity:1}
 .seam{
   position:fixed;left:34vw;top:50%;transform:translate(-50%,-50%);z-index:4;
   display:flex;align-items:center;gap:8px;border:none;border-radius:999px;
@@ -106,21 +112,31 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
   <section class="sec sec-work">
     <h1>Eunice Tong</h1>
     <p class="role">Programme evaluation analyst, SingHealth</p>
-    <p class="blurb">Programme evaluation analyst with 5+ years turning user research and data into quality standards and recommendations for healthcare programmes. At SingHealth I build evaluation frameworks for national programmes, lead qualitative research on digital care coordination (the One Care Plan), and coordinate large focus-group studies with residents, GPs and operations teams. I'm now moving towards product operations: closer to the decisions that data informs, and to making programmes work in practice.</p>
-    <h2>Where I've been</h2>
+    <p class="blurb">Programme evaluation analyst with 5+ years turning user research and data into clear quality standards and recommendations for healthcare programmes. Experienced in mixed-methods research, framework-based analysis, and segmenting users to understand what drives their engagement.</p>
+    <h2>Experience</h2>
+    <p><strong>SingHealth</strong> · Analyst, Programme Evaluation · Jan 2023 to present</p>
     <ul>
-      <li>SingHealth, Analyst, Programme Evaluation (2023 to present)</li>
-      <li>NUS Saw Swee Hock School of Public Health, Researcher (2019 to 2022)</li>
-      <li>Master of Public Health, National University of Singapore (2023)</li>
-      <li>BSc Life Sciences, National University of Singapore (2019), first class honours</li>
+      <li>Built theory-of-change and logic model frameworks for national healthcare programmes, mapping how each programme activity is meant to lead to results for participants.</li>
+      <li>Led qualitative research for the evaluation of One Care Plan, a digital care-coordination platform piloted by MOHT, to understand user needs, pinpoint where users drop off or struggle, and recommend what future programmes should do differently.</li>
+      <li>Drove projects using a mixed-methods approach, combining surveys, interviews and programme data, to deliver recommendations that senior leadership used to prioritise and implement changes.</li>
+      <li>Partnered with strategy, operations and delivery teams across the SingHealth cluster to co-develop and translate research findings into concrete improvements across programme touchpoints.</li>
+      <li>Coordinated 25 focus group discussions with 181 participants across 5 stakeholder groups (residents, GPs, community partners, operations staff, programme teams), synthesising their needs into clear problem statements and findings.</li>
+      <li>Designed and ran nationwide resident and cluster-wide partner collaboration surveys to inform recruitment strategy and rollout decisions.</li>
     </ul>
-    <h2>Highlights</h2>
+    <p><strong>NUS Saw Swee Hock School of Public Health</strong> · Researcher · Jun 2019 to Nov 2022</p>
     <ul>
-      <li>Built theory-of-change and logic-model frameworks for national healthcare programmes</li>
-      <li>Led qualitative research on the One Care Plan, a digital care-coordination platform piloted by MOHT</li>
-      <li>Coordinated 25 focus groups with 181 participants across 5 stakeholder groups</li>
-      <li>Designed and ran nationwide resident and cluster-wide partner surveys</li>
+      <li>Collaborated with stakeholders on evaluation of programmes, supporting study design, user data collection and analysis to assess experience quality and programme effectiveness.</li>
+      <li>Applied R and NVivo to manage and analyse large behavioural health datasets, generating insights to inform public health strategy and supporting co-authored publications.</li>
+      <li>Managed end-to-end research operations, including ethics submissions, research agreements, grant applications and cross-sector partner coordination.</li>
     </ul>
+    <h2>Education</h2>
+    <ul>
+      <li>Master of Public Health, National University of Singapore (Aug 2021 to Jul 2023), GPA 4.58, First Class Honours</li>
+      <li>BSc Life Sciences, National University of Singapore (Aug 2015 to May 2019), First Class Honours, minor in Public Health, GPA 4.51, FYP published</li>
+    </ul>
+    <h2>Skills and tools</h2>
+    <p><strong>Analytics and tools:</strong> R, Excel, Stata, NVivo, REDCap, Qualtrics, Notion, SQL, Tableau</p>
+    <p><strong>Methods:</strong> Evaluation framework design, mixed-methods research, quality standards definition, user needs synthesis, focus groups and in-depth interviews, theory of change, data storytelling, implementation science</p>
     <div class="buttons">
       <a class="btn" href="Eunice-Tong-CV.pdf" download>Download CV</a>
       <a class="btn" href="https://www.linkedin.com/in/eunicetong-/" target="_blank" rel="noopener">LinkedIn</a>
@@ -139,6 +155,7 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
 </main>
 
 <div class="hint">Drag to orbit · Scroll or pinch to zoom · Tap Iris</div>
+<div class="tapcue" id="tapcue">Tap Iris</div>
 
 <button class="seam" id="climb" type="button" aria-label="Interests" title="Interests">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -520,7 +537,7 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
   }
 
   // Movement along a path: walking on the ground and climbing the tree
-  let moving = false, path = [], pathIdx = 0, segFrom = new THREE.Vector3(), segT = 0, segDur = 1;
+  let moving = false, path = [], pathIdx = 0, pathDir = 1, segFrom = new THREE.Vector3(), segT = 0, segDur = 1;
   // (ground and branch positions are set below; he starts on the top branch)
   let onTree = true, surfaceY = 1.74, introDone = true;
   const basePos = new THREE.Vector3(0.1, 1.74, -0.6);   // starts on the top branch, no drop   // where he is on the island, before pose offsets
@@ -589,8 +606,10 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
     turnLeft = 0;
     turnWait = 0;
     annoyT = 0;
-    path = points;
-    pathIdx = 0;
+    // The route starts where he is now, so it can be walked back from any point along it
+    path = [basePos.clone(), ...points.map(p => p.clone())];
+    pathIdx = 1;
+    pathDir = 1;
     moving = true;
     startSeg();
   }
@@ -609,7 +628,7 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
   }
   function finishPath(){
     moving = false;
-    const end = path[path.length - 1];
+    const end = path[pathIdx];
     onTree = end.y > 1;
     basePos.y = end.y;
     surfaceY = end.y;
@@ -642,10 +661,9 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
   }
   // Mid-route: walk back over the last waypoint, then retrace the route so he turns round
   function reverseClimb(){
-    const back = [segFrom.clone()];
-    for (let i = pathIdx - 1; i >= 1; i--) back.push(path[i - 1].clone());
-    path = back;
-    pathIdx = 0;
+    // Turn round along the same route: the point he has just left becomes the next stop
+    pathIdx = pathIdx - pathDir;
+    pathDir = -pathDir;
     startSeg();
   }
   function climbToggle(){
@@ -731,6 +749,21 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
     lastInteract = t;
   }, {passive:false});
 
+  // A small "Tap Iris" label appears above him while he sleeps, placed over his head on screen
+  const tapCue = document.getElementById('tapcue');
+  const cuePos = new THREE.Vector3();
+  function updateTapCue(){
+    const on = sleep > 0.5;
+    if (on){
+      cat.getWorldPosition(cuePos);
+      cuePos.y += 0.9;
+      cuePos.project(camera);
+      const r = canvas.getBoundingClientRect();
+      tapCue.style.left = (r.left + (cuePos.x * 0.5 + 0.5) * r.width) + 'px';
+      tapCue.style.top = (r.top + (-cuePos.y * 0.5 + 0.5) * r.height) + 'px';
+    }
+    tapCue.classList.toggle('on', on);
+  }
   function resize(){
     const w = canvas.clientWidth || 1, h = canvas.clientHeight || 1;
     renderer.setSize(w, h, false);
@@ -834,9 +867,9 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
       const k2 = Math.min(1, segT / segDur);
       basePos.lerpVectors(segFrom, path[pathIdx], k2);
       if (k2 >= 1){
-        pathIdx++;
-        if (pathIdx >= path.length) finishPath();
-        else startSeg();
+        const nxt = pathIdx + pathDir;
+        if (nxt < 0 || nxt >= path.length) finishPath();
+        else { pathIdx = nxt; startSeg(); }
       }
     }
 
@@ -911,6 +944,7 @@ body[data-mode="personal"] .sec-personal{transform:translateY(0);visibility:visi
 
     camera.position.setFromSpherical(sph).add(target);
     camera.lookAt(target);
+    updateTapCue();
     renderer.render(scene, camera);
     requestAnimationFrame(frame);
   }
